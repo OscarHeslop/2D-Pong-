@@ -12,7 +12,15 @@ pygame.init()
 #-----------------------
 #colours 
 white = (255, 255, 255)
-red = (255, 0,0)
+blue = (0,0,255)
+red = (255, 0,0) #RGB
+green = (0,255,0)
+
+
+
+
+#-----------------------
+
 #pygame 
 SCREEN_WIDTH = 800
 SCREEN_HEIGHT = 600
@@ -20,6 +28,8 @@ screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
 pygame.display.set_caption("Oscar Pong 2d")
 clock = pygame.time.Clock()
 running = True
+
+
 
 
 
@@ -33,18 +43,31 @@ class Bar:
         self.y_pix = y_pix
         self.x = x
         self.y = y
-    def draw(self):
-        pygame.draw.rect(screen, red, (self.x, self.y, self.x_pix, self.y_pix))
+        self.colour = None
+    def draw(self,colour):
+        self.colour = colour
+        pygame.draw.rect(screen, colour, (self.x, self.y, self.x_pix, self.y_pix))
 
+class Ball:
+    def __init__(self, x, y, rad):
+        self.x = x 
+        self.y = y
+        self.rad = rad
+    def draw(self,colour):
+        pygame.draw.circle(screen, colour, (int(self.x), int(int(self.y))), self.rad)
 #-----------------------
 # ! instanciating classes
 #-----------------------
-x_dim = 20
+# ! init vars
+speed = 5
+rad = 20
+x_dim = 20 #dimensions
 y_dim = x_dim * 6
 player = Bar(x_dim, y_dim , int(x_dim * 0.5), int(SCREEN_HEIGHT * 1/2)) # is x then y
-speed = 5
+enemy = Bar(x_dim, y_dim , int(SCREEN_WIDTH - int(x_dim * 0.5) - int(x_dim)), int(SCREEN_HEIGHT * 1/2)) # is x then y
 
-
+#Ball 
+ball = Ball(SCREEN_WIDTH //2, SCREEN_HEIGHT//2, rad)
 #-----------------------
 # ! MAIN LOOP
 #-----------------------
@@ -83,7 +106,11 @@ while running:
     #-----------------------
     # ! DRAWING ON SCREEN 
     #-----------------------
-    player.draw()
+    player.draw(red)
+    enemy.draw(blue)
+    # DRAWING BALL 
+    ball.draw(green)
+    
 
 
     #-----------------------------------------
